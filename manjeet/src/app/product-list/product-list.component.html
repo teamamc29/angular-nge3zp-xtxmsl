@@ -1,0 +1,28 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav mode="side" opened>
+    <mat-nav-list>
+      <ng-container *ngFor="let item of sidenavItems; let i = index">
+        <mat-list-item (click)="toggleSubmenu(i)">
+          <a matLine [routerLink]="item.route">{{ item.name }}</a>
+          <mat-icon *ngIf="item.hasSubmenu" class="expand-icon">
+            {{ expandedIndex === i ? 'expand_less' : 'expand_more' }}
+          </mat-icon>
+        </mat-list-item>
+        <ng-container *ngIf="item.hasSubmenu && expandedIndex === i">
+          <div class="submenu">
+            <mat-list-item *ngFor="let submenu of submenuItems">
+              <mat-icon>subdirectory_arrow_right</mat-icon>
+              <a matLine [routerLink]="submenu.route">{{ submenu.name }}</a>
+            </mat-list-item>
+          </div>
+        </ng-container>
+      </ng-container>
+    </mat-nav-list>
+    <div *ngIf="error" class="error">
+      {{ error }}
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
